@@ -1,5 +1,5 @@
-resource "aws_s3_bucket" "first-bucket-abbey" {
-  bucket = "my-tf-test-bucket"
+resource "aws_s3_bucket" "example" {
+  bucket = "my-tf-test-bucket-abbey"
 
   tags = {
     Name        = "My bucket"
