@@ -6,3 +6,12 @@ resource "aws_s3_bucket" "example" {
     Environment = "Dev"
   }
 }
+
+
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+
