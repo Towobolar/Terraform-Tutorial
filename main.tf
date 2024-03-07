@@ -61,6 +61,8 @@ resource "aws_route_table_association" "a" {
 resource "aws_instance" "main_ec2" {
   ami           = ami-09885f3ec1667cbfc
   instance_type = "t2.micro"
+  subnet_id      = aws_subnet.public_subnet.id
+   vpc_id     = aws_vpc.main.id
 
   tags = {
     Name = "project ec2"
@@ -70,6 +72,7 @@ resource "aws_instance" "main_ec2" {
 resource "aws_instance" "main_ec21" {
   ami           = ami-09885f3ec1667cbfc
   instance_type = "t2.micro"
+   vpc_id     = aws_vpc.main.id
 
   tags = {
     Name = "project second ec2"
