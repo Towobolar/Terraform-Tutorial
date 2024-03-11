@@ -11,6 +11,10 @@ resource "aws_vpc" "major-vpc" {
   }
 }
 
+/*******************************
+*        Public subnet         *
+********************************/
+
 resource "aws_subnet" "public-subnet" {
   vpc_id     = aws_vpc.major-vpc.id
   cidr_block = "10.0.1.0/24"
@@ -20,6 +24,10 @@ resource "aws_subnet" "public-subnet" {
     Name = "project public subnet"
   }
 }
+
+/*******************************
+*        Private subnet         *
+********************************/
 
 resource "aws_subnet" "private-subnet" {
   vpc_id     = aws_vpc.major-vpc.id
@@ -31,6 +39,10 @@ resource "aws_subnet" "private-subnet" {
   }
 }
 
+/*******************************
+*        internet gateway         *
+********************************/
+
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.major-vpc.id
 
@@ -38,6 +50,10 @@ resource "aws_internet_gateway" "gw" {
     Name = "internet gw"
   }
 }
+
+/*******************************
+*        route table         *
+********************************/
 
 resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.major-vpc.id
@@ -53,10 +69,18 @@ resource "aws_route_table" "public-rt" {
   }
 }
 
+/***********************************
+*        route association         *
+************************************/
+
 resource "aws_route_table_association" "public-association" {
   subnet_id      = aws_subnet.public-subnet.id
   route_table_id = aws_route_table.public-rt.id
 }
+
+/*******************************
+*        security group        *
+********************************/
 
 resource "aws_security_group" "major-vpc-sg" {
   vpc_id = aws_vpc.major-vpc.id
@@ -76,3 +100,4 @@ resource "aws_security_group" "major-vpc-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
