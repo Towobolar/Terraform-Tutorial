@@ -101,3 +101,14 @@ resource "aws_security_group" "major-vpc-sg" {
   }
 }
 
+/*******************************
+*        ec2 instance         *
+********************************/
+resource "aws_instance" "main-instance" {
+  ami           = ami-0f403e3180720dd7e
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ec2"
+  }
+}
