@@ -121,6 +121,7 @@ resource "aws_instance" "web-instance" {
   subnet_id              = aws_subnet.public-subnet.id
   vpc_security_group_ids = [aws_security_group.web-sg.id]
   key_name               = aws_key_pair.brainiac-key.id
+  associate_public_ip_address = true
 
   tags = {
     Name = "web ec2"
