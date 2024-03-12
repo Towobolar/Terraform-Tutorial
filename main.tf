@@ -7,7 +7,8 @@ resource "aws_vpc" "major-vpc" {
   instance_tenancy = "default"
 
   tags = {
-    name = "project vpc"
+    terraform = "true"
+    Name      = "major vpc"
   }
 }
 
@@ -83,9 +84,9 @@ resource "aws_route_table_association" "public-association" {
 ********************************/
 
 resource "aws_security_group" "web-sg" {
-  name = "web-sg"
+  name        = "web-sg"
   description = "allow inbound ssh and https traffic"
-  vpc_id = aws_vpc.major-vpc.id
+  vpc_id      = aws_vpc.major-vpc.id
 
   ingress {
     protocol    = "tcp"
@@ -95,7 +96,7 @@ resource "aws_security_group" "web-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   ingress {
+  ingress {
     protocol    = "tcp"
     self        = true
     from_port   = 22
