@@ -178,4 +178,29 @@ resource "aws_security_group" "private-instance-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-  
+
+/*******************************
+*      Relational Database instance         *
+********************************/
+
+resource "aws_db_instance" "major-database" {
+  allocated_storage    = 30
+  db_name              = "mydb"
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t3.micro"
+  username             = "Tipson"
+  password             = "Tipson'Otee"
+  parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+}
+
+resource "aws_db_subnet_group" "default" {
+  name       = "main"
+  vpc_id     = aws_vpc.major-vpc.id
+  subnet_ids = [aws_subnet.private-subnet.id]
+
+  tags = {
+    Name = "My DB subnet group"
+  }
+}
