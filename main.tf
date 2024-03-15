@@ -193,14 +193,6 @@ resource "aws_db_instance" "major-database" {
   password             = "Tipson'Otee"
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
+  
 }
 
-resource "aws_db_subnet_group" "default" {
-  name       = "main"
-  vpc_id     = aws_vpc.major-vpc.id
-  subnet_ids = [aws_subnet.private-subnet.id]
-
-  tags = {
-    Name = "My DB subnet group"
-  }
-}
