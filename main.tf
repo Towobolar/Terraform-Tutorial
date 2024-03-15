@@ -144,7 +144,7 @@ resource "aws_key_pair" "brainiac-key" {
 resource "aws_instance" "private-instance" {
   ami                    = "ami-09885f3ec1667cbfc"
   instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.private-subnet
+  subnet_id              = aws_subnet.private-subnet.id
   vpc_security_group_ids = [aws_security_group.private-instance-sg.id]
   key_name               = aws_key_pair.brainiac-key.id
 
