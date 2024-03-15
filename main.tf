@@ -193,6 +193,16 @@ resource "aws_db_instance" "major-database" {
   password             = "Tipson'Otee"
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
-  
+  db_subnet_group_name = aws_db_subnet_group.rds-subnet
+
 }
 
+resource "aws_db_subnet_group" "rds-subnet" {
+  name      = "main"
+  subnet_ids = aws_subnet.private-subnet.id
+
+
+  tags = {
+    Name = "My DB subnet group"
+  }
+}
