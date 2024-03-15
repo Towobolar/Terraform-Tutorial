@@ -79,9 +79,9 @@ resource "aws_route_table_association" "public-association" {
   route_table_id = aws_route_table.public-rt.id
 }
 
-/*******************************
-*        security group        *
-********************************/
+/********************************************
+*        web instance security group        *
+*********************************************/
 
 resource "aws_security_group" "web-sg" {
   name        = "web-sg"
@@ -138,4 +138,44 @@ resource "aws_key_pair" "brainiac-key" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCqb6C7CS4aZdjn97tOf812QEQC7R5a6/Y1vwaXPWOOmFnkK/1UucVbLJe88YBr0vlrAHnv7nsg5b9a7Lmj/Y9Rbo2q/g6bUiHoXJEHQ5/hOe7eYVlt0Pf1dtcK7Ti22dsoOjgZ4QWXcTWB7wGc1cnmUp96AnSc12+qLJ30moeo0be62rchptPvpWlAo4Xb0jcK6Wk8pWqMO1Nem4pkfudVQNe83inJc6yjelUBdGkRVRUDeWjFGxQtFygTn5wY0ExSxcpEOCSBu75HrHb8FwNBPurn/9Umy4oaGkv8oryaEoLGv60yf+Iyge3SuYwiHlmWs9Dof877fD6tMM8Zgu6n5ujm3Oa4mlFSx2IKmQUnWGBIv+4Fuhcvb96jvxut1Wg1xb5gOmO355ce1nkboAYBLghtHi5ZN66kp7AMwE/LAO/RPVZLibZtLkf8Csu+xPpFrbAktprlAmtUUEMaaWNwemWnsBUgH5SmtgOFGUlPgb58H7H9S/Xi+bNt2THMO9k= abbey@TOWOBOLA"
 }
 
+/*******************************
+*        private ec2 instance         *
+********************************/
+resource "aws_instance" "private-instance" {
+  ami                    = "ami-09885f3ec1667cbfc"
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.private-subnet
+  vpc_security_group_ids = [aws_security_group.private-instance-sg.id]
+  key_name               = aws_key_pair.brainiac-key.id
+
+  tags = {
+    Name = "private ec2"
+  }
+}
+
+/******************************************
+*        private ec2 instance sg         *
+******************************************/
+
+
+resource "aws_default_security_group" "private-instance-sg" {
+  name = "private instance sg"
+  description = "allow inbound ssh to private instance"
+  vpc_id      = aws_vpc.major-vpc.id
+
+  ingress {
+    protocol    = "tcp"
+    self        = true
+    from_port   = 22
+    to_port     = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
   
