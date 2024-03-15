@@ -116,11 +116,11 @@ resource "aws_security_group" "web-sg" {
 *        ec2 instance         *
 ********************************/
 resource "aws_instance" "web-instance" {
-  ami                    = "ami-09885f3ec1667cbfc"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public-subnet.id
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
-  key_name               = aws_key_pair.brainiac-key.id
+  ami                         = "ami-09885f3ec1667cbfc"
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.public-subnet.id
+  vpc_security_group_ids      = [aws_security_group.web-sg.id]
+  key_name                    = aws_key_pair.brainiac-key.id
   associate_public_ip_address = true
 
   tags = {
@@ -158,8 +158,8 @@ resource "aws_instance" "private-instance" {
 ******************************************/
 
 
-resource "aws_default_security_group" "private-instance-sg" {
-  name = "private instance sg"
+resource "aws_security_group" "private-instance-sg" {
+  name        = "private instance sg"
   description = "allow inbound ssh to private instance"
   vpc_id      = aws_vpc.major-vpc.id
 
