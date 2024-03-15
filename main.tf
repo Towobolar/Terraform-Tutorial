@@ -197,9 +197,13 @@ resource "aws_db_instance" "major-database" {
 
 }
 
+/***************************************
+*       rds subnet                      *
+*****************************************/
+
 resource "aws_db_subnet_group" "rds-subnet" {
-  name      = "main"
-  subnet_ids = aws_subnet.private-subnet.id
+  name       = "main"
+  subnet_ids = [aws_subnet.private-subnet.id]
 
 
   tags = {
