@@ -226,7 +226,7 @@ resource "aws_db_subnet_group" "rds-subnet" {
 *********************************************/
 resource "aws_subnet" "private-subnet-2" {
   vpc_id            = aws_vpc.major-vpc.id
-  cidr_block        = "10.0.2.0/24"
+  cidr_block        = "10.0.3.0/24"
   availability_zone = "eu-west-2c"
 
   tags = {
