@@ -40,6 +40,8 @@ resource "aws_subnet" "private-subnet" {
   }
 }
 
+
+
 /*******************************
 *        internet gateway         *
 ********************************/
@@ -171,6 +173,14 @@ resource "aws_security_group" "private-instance-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    protocol    = "tcp"
+    self        = true
+    from_port   = 3306
+    to_port     = 3306
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -203,10 +213,23 @@ resource "aws_db_instance" "major-database" {
 
 resource "aws_db_subnet_group" "rds-subnet" {
   name       = "main"
-  subnet_ids = [aws_subnet.private-subnet.id]
+  subnet_ids = [aws_subnet.private-subnet.id, aws_subnet.private-subnet-2.id]
 
 
   tags = {
     Name = "My DB subnet group"
+  }
+}
+
+/*******************************************
+*       Rds second AZ                       *
+*********************************************/
+resource "aws_subnet" "private-subnet-2" {
+  vpc_id            = aws_vpc.major-vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "eu-west-2C"
+
+  tags = {
+    Name = "project rds second AZ"
   }
 }
